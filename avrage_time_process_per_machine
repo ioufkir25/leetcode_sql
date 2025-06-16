@@ -8,12 +8,6 @@ order by processing_time asc
 
 
 
-
-
-
-
-
-
 # Write your MySQL query statement below
 select machine_id,ROUND(avg(diff_timestamp),3) as processing_time from
         (select machine_id,process_id,max(timestamp)-min(timestamp) as diff_timestamp
@@ -21,3 +15,21 @@ select machine_id,ROUND(avg(diff_timestamp),3) as processing_time from
         group by machine_id,process_id) as process_time
 group by machine_id
 order by processing_time asc
+
+orrr
+SELECT 
+    start.machine_id, 
+    ROUND(AVG(TIMESTAMPDIFF(SECOND, start.timestamp, end.timestamp)), 3) AS processing_time
+FROM 
+    Activity AS start
+JOIN 
+    Activity AS end
+    ON start.machine_id = end.machine_id 
+    AND start.process_id = end.process_id
+WHERE 
+    start.activity_type = 'start' 
+    AND end.activity_type = 'end'
+GROUP BY 
+    start.machine_id
+ORDER BY 
+    processing_time ASC;
