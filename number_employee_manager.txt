@@ -73,3 +73,14 @@ answer:
 select e1.employee_id,e1.name,count(e2.reports_to) as reports_count,round(avg(e2.age)) as average_age
 from Employees e1 join employees e2 on e1.employee_id=e2.reports_to
 group by e1.employee_id
+
+
+another way with subquery
+select E1.employee_id , E1.name , E2.reports_count , E2.average_age
+    from Employees as E1 
+    join 
+        (select   reports_to as manager_id ,count(employee_id) as reports_count , round(avg(age)) as average_age
+        from employees 
+        where reports_to is not null
+        group by reports_to ) as E2 
+    on E1.employee_id = E2.manager_id
