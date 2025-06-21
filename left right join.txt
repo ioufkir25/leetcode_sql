@@ -1,0 +1,17 @@
+Write a solution to report the IDs of all the employees with missing information. The information of an employee is missing if:
+
+The employee's name is missing, or
+The employee's salary is missing.
+Return the result table ordered by employee_id in ascending order.
+
+The result format is in the following example.
+
+
+# Write your MySQL query statement below
+select e.employee_id
+from employees as e left join salaries as s on e.employee_id=s.employee_id
+where s.employee_id is null
+union
+select sa.employee_id
+from salaries as sa left join employees as em on em.employee_id=sa.employee_id
+where em.employee_id is null
